@@ -19,7 +19,7 @@
             <option name="Science Technology And Society" value="Science Technology And Society">Science Technology And Society</option>
             <option name="Environmental Science" value="Environmental Science">Environmental Science</option> -->
            <% users.forEach(function (user) { %>
-               <option><%= user.cname %></option>
+               <option value="<%= user.cname %>"><%= user.cname %></option>
             <%   });  %>
            </select>
        <button type="submit">Add Attendance</button>

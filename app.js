@@ -7,7 +7,7 @@ var path = require('path');
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'password',
+    password: 'bubbi@123',
     database: 'attendance_management'
 });
 
@@ -47,17 +47,18 @@ app.post("/auth", function (request, response) {
         }
         else{
         console.log("found student");
-        connection.query("select cname from student where sid= '"+ userid + "'", function (err,result1) {   
+        connection.query("select sname from student where sid= '"+ userid + "'", function (err,result1) {   
             if (err) throw err;
             if(result1.length == 0) {
                 response.send("error");
             }
             else {
                // console.log(result1);
+               response.render('student',{studentname: result[0].sname});
             }
 
       });
-      response.render('student',{studentname: result[0].sname});
+      
         }
     });
     }
@@ -89,12 +90,13 @@ app.post("/auth", function (request, response) {
                       else {
                           console.log(result1);
                           obj.facname = result2;
-                          obj.users = result1;                
+                          obj.users = result1;
+                          response.render('home',obj);                
                       }
                     });            
                 }
             });           
-            response.render('home',obj);
+           
         }        
     });
     }
@@ -122,7 +124,7 @@ app.post('/mark', function(req,res) {
 });
 
 app.post('/attendance',function(request,response){
-    // console.log(request.body.selectpick);
+     console.log(request.body.selectpick);
 });
 
 app.listen(3000, function() {
