@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>home | attendance</title>
+    </head>
+    <body>
+
+        <h1>welcome back <%= facname[0].fname %> </h1>
+        <p>Please select the subject.</p><br>
+        <form action="mark" method="POST">
+        <select name="addattendance">
+            <!-- <option name="Information Security" value="Information Security">Information Security</option>
+            <option name="Information Security Lab" value="Information Security Lab">Information Security Lab</option>
+            <option name="Descrete Mathematics" value="Descrete Mathematics">Descrete Mathematics</option>
+            <option name="Numerical Techniques" value="Numerical Techniques">Numerical Techniques</option>
+            <option name="Digital Logic Design" value="Digital Logic Design">Digital Logic Design</option>
+            <option name="Digital Logic Design Lab" value="Digital_Logic_Design_Lab">Digital Logic Design Lab</option>
+            <option name="Computer Networks" value="Computer Networks">Computer Networks</option>
+            <option name="Computer Networks Lab" value="Compute Networks Lab">Computer Networks Lab</option>
+            <option name="Science Technology And Society" value="Science Technology And Society">Science Technology And Society</option>
+            <option name="Environmental Science" value="Environmental Science">Environmental Science</option> -->
+           <% users.forEach(function (user) { %>
+               <option><%= user.cname %></option>
+            <%   });  %>
+           </select>
+       <button type="submit">Add Attendance</button>
+    </form>
+        <br><button>View Attendance</button>
+        
+    </body>
+</html>

@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>attendance</title>
+
+</head>
+
+<body>
+    <h1>Student Attendance Portal</h1>
+    <br>
+    <br>
+    <div class="container">
+        <form action="" method="POST">
+           <h3><%= print[0].cid %></h3>
+            <h3><%= print[0].cname %></h3>
+            <h3><%= print[0].fid %></h3>
+            <h3><%= print[0].fname %></h3>
+            <table>
+                <tr>
+                    <th>Student ID</th>
+                    <th>attendance</th>
+                </tr>
+                
+               
+                <% sn.forEach(function (user) { %>
+                    <tr>
+                        <td><input name="sid" value="<%= user.sid %>" readonly></td>
+                         <td><select id="<%= user.sid %>" name="selectpick">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                            </select></td>
+                    </tr>
+                    <% }) %>
+            </table>
+           <br> 
+            <button class="btn aqua-gradient" type="submit">submit</button>
+
+        </form>
+
+    </div>
+
+
+</body>
+
+</html>
