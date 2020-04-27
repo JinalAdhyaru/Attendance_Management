@@ -5,23 +5,21 @@
 </head>
 
 <body>
-       
-
-    <form action="attendance" method="POST">
-        <h1>welcome back <input name="studentname" value="<%= studentname %>" readonly></h1>
+   <form action="attendance" method="POST">
+        <h1>welcome back <input name="studentname" value="<%= studentname %>" <%= studentname %> readonly></h1>  
         <select name="selectpick">
-            <option name="" value="Information Security">info sec</option>
-            <option name="" value="Information Security Lab">info sec lab</option>
-            <option name="" value="Discrete Mathematics">dis math</option>
-            <option name="" value="Numerical Techniques">num tech</option>
-            <option name="" value="Digital Logic Design">dld</option>
-            <option name="" value="Digital Logic Design Lab">dld lab</option>
-            <option name="" value="Computer Networks">comp net</option>
-            <option name="" value="Computer Networks Lab">comp net lab</option>
-            <option name="" value="Science Technology And Society">scst</option>
-            <option name="" value="Environmental Science">evs</option>
+            <option name="Information Security" value="Information Security">Information Security</option>
+            <option name="Information Security Lab" value="Information Security Lab">Information Security Lab</option>
+            <option name="Discrete Mathematics" value="Discrete Mathematics">Descrete Mathematics</option>
+            <option name="Numerical Techniques" value="Numerical Techniques">Numerical Techniques</option>
+            <option name="Digital Logic Design" value="Digital Logic Design">Digital Logic Design</option>
+            <option name="Digital Logic Design Lab" value="Digital Logic Design Lab">Digital Logic Design Lab</option>
+            <option name="Computer Networks" value="Computer Networks">Computer Networks</option>
+            <option name="Computer Networks Lab" value="Computer Networks Lab">Computer Networks Lab</option>
+            <option name="Science Technology And Society" value="Science Technology And Society">Science Technology And Society</option>
+            <option name="Environmental Science" value="Environmental Science">Environmental Science</option>
         </select>
-        <input type="submit">
+        <button type="submit">Submit</button>
     </form>
 
 </body>

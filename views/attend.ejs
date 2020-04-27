@@ -11,7 +11,7 @@
     <br>
     <div class="container">
         <form action="lastpage" method="POST">
-           <h3><%= attend[0].cid %></h3>
+            <input name="cid" value="<%= attend[0].cid %>" readonly>
             <h3><%= attend[0].cname %></h3>
             <h3><%= attend[0].fid %></h3>
             <h3><%= attend[0].fname %></h3>
@@ -33,7 +33,7 @@
                     <% }) %>
             </table>
            <br> 
-            <button class="btn aqua-gradient" type="submit">submit</button>
+            <button type="submit">submit</button>
 
         </form>
 
