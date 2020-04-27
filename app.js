@@ -33,12 +33,11 @@ var obj3 = {};
 app.post("/auth", function (request, response) {
     var userid = request.body.usrname;
     var password = request.body.password;
-    
 
     //console.log(userid);
     //console.log(password);
     if(userid.includes("2018500")){
-        console.log("entered student");
+        //console.log("entered student");
         var sqls = 'SELECT * FROM student WHERE sid = ? AND spaswrd = ?';
         connection.query(sqls, [userid, password], function (err, result) {
         if (err) throw err;
@@ -47,7 +46,7 @@ app.post("/auth", function (request, response) {
             response.send("student not found");
         }
         else{
-        console.log("found student");
+        //console.log("found student");
         connection.query("select sname from student where sid= '"+ userid + "'", function (err,result1) {   
             if (err) throw err;
             if(result1.length == 0) {
@@ -55,15 +54,16 @@ app.post("/auth", function (request, response) {
             }
             else {
                // console.log(result1);
+               response.render('student',{studentname: result[0].sname});
             }
 
       });
-      response.render('student',{studentname: result[0].sname});
+      
         }
     });
     }
     else if(userid.includes("F")){
-         console.log("entered faculty");
+        // console.log("entered faculty");
         var sqlf = 'SELECT * FROM faculty WHERE fid = ? AND fpaswrd = ?';
     connection.query(sqlf, [userid, password], function (err, result) {
         if (err) throw err;
@@ -79,7 +79,7 @@ app.post("/auth", function (request, response) {
                     response.send("no such faculty");
                 }
                 else {
-                    console.log(result2);
+                    //console.log(result2);
                     connection.query("SELECT course.cname FROM course natural join faculty where fid = '"+ userid + "'", function (err, result1) {
                         if (err) throw err;
                         //console.log(f);  
@@ -88,14 +88,15 @@ app.post("/auth", function (request, response) {
                         response.send("no course");
                         }           
                       else {
-                          console.log(result1);
+                          //console.log(result1);
                           obj.facname = result2;
-                          obj.users = result1;                
+                          obj.users = result1;
+                          response.render('home',obj);                
                       }
                     });            
                 }
             });           
-            response.render('home',obj);
+           
         }        
     });
     }
@@ -109,17 +110,12 @@ var obj2={};
 app.post('/mark', function(req,res) {
     var subject = req.body.addattendance;
     console.log(subject);
-    connection.query("select course.cid ,course.cname,faculty.fid,faculty.fname from course natural join faculty where cname= '" + subject + "'", function(err,result) {
-        console.log(result);
-        connection.query("select sid from student" , function(err,result2) {
-            console.log(result2);
-            obj2.print = result;
-        obj2.sn = result2;
-        })
-        
-        res.render('attend',obj2);
-    })
-
+    connection.query("select course.cid, course.cname , faculty.fid , faculty.fname, student.sid from course natural join faculty , student where cname = '" + subject + "'", function(err,result) {
+    console.log(obj2);
+    obj2 = {attend: result}; 
+    res.render('attend',obj2);
+    })       
+       
 });
 
 app.post('/lastpage', function (req ,res) {    
@@ -130,8 +126,6 @@ app.post('/lastpage', function (req ,res) {
 
     var dayy = `${da}_${mo}_${ye}`;
     //console.log(dayy);
-
-
     var attended = req.body.selectpick;
     var sids = req.body.sid;
     var cid = req.body.cid;
@@ -140,7 +134,7 @@ app.post('/lastpage', function (req ,res) {
     console.log(sids.length);
     console.log(cn);
     console.log(dayy);
-    connection.query("alter table "+ cn + " add cloumn "+ dayy +" int" , function(err, result) {
+    connection.query("alter table "+ cn + " add column "+ dayy +" int" , function(err, result) {
         if (err) throw err;
         if(result.length == 0)
         {
@@ -152,6 +146,7 @@ app.post('/lastpage', function (req ,res) {
                 connection.query(atsql, [attended[i]] , sids[i], function (err, result) {
                     if (err) throw err;
                     console.log("record inserted successfully");
+                    console.log(result);
                 });
         
             }
@@ -161,14 +156,6 @@ app.post('/lastpage', function (req ,res) {
 
 app.post('/attendance',function(request,response){
      console.log(request.body.selectpick);
-     var crname = request.body.selectpick;
-     var stdn = request.body.studentname;
-     console.log(crname);
-     
-     var tbname = crname+"_attendance";
-     console.log(stdn);
-     console.log(tbname);
-    //  connection.query("select * from "+ tbname + "where sid=")   
 });
 
 app.listen(3000, function() {
