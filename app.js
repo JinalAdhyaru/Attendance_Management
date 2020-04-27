@@ -225,11 +225,12 @@ app.post('/attendance', function (request, response) {
             var tbname = result[0].cid + "_attendance";
             console.log(stdn);
             console.log(tbname);
-            connection.query("select * from "+ tbname, function(err,result) {
+            connection.query("show columns from "+ tbname, function(err,result) {
                 if (err) throw err;
                 if(result.length == 0) { console.log("table does not exist")}
                 else {
-                    console.log(result);                                                            
+                    console.log(result);
+                                                                                
                 }
             })   
         }
