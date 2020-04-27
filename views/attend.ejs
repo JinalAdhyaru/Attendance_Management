@@ -10,11 +10,11 @@
     <br>
     <br>
     <div class="container">
-        <form action="" method="POST">
-           <h3><%= print[0].cid %></h3>
-            <h3><%= print[0].cname %></h3>
-            <h3><%= print[0].fid %></h3>
-            <h3><%= print[0].fname %></h3>
+        <form action="lastpage" method="POST">
+           <h3><%= attend[0].cid %></h3>
+            <h3><%= attend[0].cname %></h3>
+            <h3><%= attend[0].fid %></h3>
+            <h3><%= attend[0].fname %></h3>
             <table>
                 <tr>
                     <th>Student ID</th>
@@ -22,7 +22,7 @@
                 </tr>
                 
                
-                <% sn.forEach(function (user) { %>
+                <% attend.forEach(function (user) { %>
                     <tr>
                         <td><input name="sid" value="<%= user.sid %>" readonly></td>
                          <td><select id="<%= user.sid %>" name="selectpick">
