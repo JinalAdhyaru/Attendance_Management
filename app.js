@@ -7,7 +7,7 @@ var path = require('path');
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'password',
+    password: 'bubbi@123',
     database: 'attendance_management'
 });
 
@@ -166,7 +166,7 @@ app.post('/attendance',function(request,response){
         else {
             console.log(result);
             var x = result;
-            var tbname = x+"_attendance";
+            var tbname = result[0].cid +"_attendance";
             console.log(stdn);
             console.log(tbname);
         }

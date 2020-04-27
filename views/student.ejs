@@ -5,9 +5,10 @@
 </head>
 
 <body>
-    <h1>welcome back <%= studentname %></h1>    
+       
 
     <form action="attendance" method="POST">
+        <h1>welcome back <input name="studentname" value="<%= studentname %>" readonly></h1>
         <select name="selectpick">
             <option name="" value="Information Security">info sec</option>
             <option name="" value="Information Security Lab">info sec lab</option>
