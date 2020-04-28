@@ -7,7 +7,7 @@ var path = require('path');
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'password',
+    password: 'bubbi@123',
     database: 'attendance_management'
 });
 
@@ -149,7 +149,7 @@ app.post('/lastpage', function (req, res) {
     //console.log(dayy);
     var attended = req.body.selectpick;
     var sids = req.body.sid;
-    var cid = req.body.cid;
+    var cid = req.body.cid.toLowerCase();
     var cn = cid + "_attendance";
     // var fid = request.body.fid;
     console.log(sids.length);
@@ -157,7 +157,20 @@ app.post('/lastpage', function (req, res) {
     console.log(attended);
     console.log(cn);
     console.log(dayy);
-    connection.query("alter table " + cn + " add column" + dayy + " varchar(1)" , function(err, result) {
+    var alsql = 'alter table '+ cn + ' add column ' + dayy + ' varchar(5)';
+    connection.query(alsql,function(err,result){
+       if(err) throw err;
+       console.log("altered successfully");
+       for(var i=0;i<sids.length;i++)
+       {
+           var upsql='update ' + cn + ' set ' + dayy + '= ? where sid = ?';
+           connection.query(upsql,[attended[i],sids[i]],function(err,result){
+            if(err) throw err;
+            console.log("recorded successfully");
+           });
+       }
+    });
+    /*connection.query("alter table " + cn + " add column" + dayy + " varchar(1)" , function(err, result) {
         if (err) throw err;
         if(result.length == 0)
         {
@@ -173,7 +186,7 @@ app.post('/lastpage', function (req, res) {
                 });        
             }
         }
-    });
+    });*/
 });
 
 
