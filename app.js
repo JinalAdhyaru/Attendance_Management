@@ -157,15 +157,15 @@ app.post('/lastpage', function (req, res) {
     console.log(attended);
     console.log(cn);
     console.log(dayy);
-    connection.query("alter table " + cn + " add column " + dayy + " int" , function(err, result) {
+    connection.query("alter table " + cn + " add column" + dayy + " varchar(1)" , function(err, result) {
         if (err) throw err;
         if(result.length == 0)
         {
-            console.log(result);
+            console.log("column added successfully");
         }
         else {
             for (var i = 0; i < sids.length; i++) {
-                var atsql = "update " + cn + " set " + dayy + "= ? where sid = ?" ;
+                var atsql = "update " + cn + " set " + dayy + " = '?' where sid = '?'" ;
                 connection.query(atsql, [attended[i]] , sids[i], function (err, result) {
                     if (err) throw err;
                     console.log("record inserted successfully");
