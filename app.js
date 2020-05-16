@@ -7,7 +7,7 @@ var path = require('path');
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'bubbi@123',
+    password: 'password',
     database: 'attendance_management'
 });
 
@@ -23,6 +23,7 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
+app.use(express.static("public"));
 
 app.get("/", function(req, res) {
     res.sendFile(path.join(__dirname + "/views/index.html"));
@@ -106,20 +107,6 @@ app.post("/auth", function (request, response) {
 });
 
 var obj2={};
-// app.post('/mark', function(req,res) {
-//     var subject = req.body.addattendance;
-//     console.log("The subject selected for adding attendance is "+ subject);
-//     connection.query("select course.cid, course.cname , faculty.fid , faculty.fname, student.sid from student, course natural join faculty where cname = '" + subject + "'", function(err,result) {
-//     console.log("The result of the query inside post mark is:" + result);
-//     obj2 = {attend: result};
-//     console.log("This is inside post mark : " + obj2);
-//     for(var i=0;i<obj2.length;i++) {
-//         console.log(obj2[i].cid + " " + obj2[i].cname + " "+obj[i].fid + " " + obj[i].fname +" " + obj[i].sid +"\n");
-//     } 
-//     res.render('attend',obj2);
-//     })       
-       
-// });
 app.post('/mark',function(request,response){
     var sub = request.body.addattendance;
     console.log(sub);
@@ -146,17 +133,16 @@ app.post('/lastpage', function (req, res) {
     const da = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d)
 
     var dayy = `${da}_${mo}_${ye}`;
-    //console.log(dayy);
     var attended = req.body.selectpick;
     var sids = req.body.sid;
     var cid = req.body.cid.toLowerCase();
     var cn = cid + "_attendance";
     // var fid = request.body.fid;
-    console.log(sids.length);
-    console.log(sids);
-    console.log(attended);
-    console.log(cn);
-    console.log(dayy);
+    //console.log(sids.length);
+    //console.log(sids);
+    //console.log(attended);
+    //console.log(cn);
+    //console.log(dayy);
     var alsql = 'alter table '+ cn + ' add column ' + dayy + ' varchar(5)';
     connection.query(alsql,function(err,result){
        if(err) throw err;
@@ -167,33 +153,19 @@ app.post('/lastpage', function (req, res) {
            connection.query(upsql,[attended[i],sids[i]],function(err,result){
             if(err) throw err;
             console.log("recorded successfully");
+            
            });
        }
+       //res.render('home');
+        });
     });
-    /*connection.query("alter table " + cn + " add column" + dayy + " varchar(1)" , function(err, result) {
-        if (err) throw err;
-        if(result.length == 0)
-        {
-            console.log("column added successfully");
-        }
-        else {
-            for (var i = 0; i < sids.length; i++) {
-                var atsql = "update " + cn + " set " + dayy + " = '?' where sid = '?'" ;
-                connection.query(atsql, [attended[i]] , sids[i], function (err, result) {
-                    if (err) throw err;
-                    console.log("record inserted successfully");
-                    console.log(result);
-                });        
-            }
-        }
-    });*/
-});
 
 
-var obj4 = {};
+var arrclname = [];
+var arr = [];
 app.post('/fview',function(request,response){
     var crs = request.body.viewatt;
-    console.log("ur subject is taken" + crs);
+    //console.log("ur subject is taken" + crs);
     var viewquery = "select cid from course where cname = '"+crs+"'";
     connection.query(viewquery,[crs],function(err,result){
         if (err) throw err;
@@ -201,24 +173,51 @@ app.post('/fview',function(request,response){
             response.send("no attendance found");
         }
         else {
-            var x = result;
+            var arr = [];
             var tbname = result[0].cid+"_attendance";
-            // connection.query("select course.cid,course.cname,stu from "+ tbname +"", function(err,result) {
-            //     if (err) throw err;
-            //     if(result.length == 0) { console.log("table does not exist")}
-            //     else {
-            //         console.log(result);    
-            //         obj4 = { fview: result };
-            //         response.render('fview', obj4);                                   
-            //     }
-            // })   
-            connection.query("show column_names from "+ tbname +".columns", function(err,result) {
-                if (err) throw err;
-                    if(result.length == 0) { console.log("table does not exist")}
-                    else {
-                        console.log(result);                                       
+            connection.query("show columns from "+ tbname.toLowerCase(), function(err,columnname){
+                if(err) throw err;
+                if(columnname.length == 0) { 
+                    console.log("Table does not exist");
+                }
+                else {                    
+                    for(var j=0;j<columnname.length;j++){
+                        arrclname.push(columnname[j].Field);
                     }
-            })
+                    console.log("arrclname : " + arrclname);
+                    for(var k=0;k<arrclname.length;k++) {
+                        connection.query("select "+ arrclname[k] +" from "+ tbname.toLowerCase(), function(err,result1) {
+                            if(err) throw err;
+                            if(result.length == 0) {
+                                console.log("Column does not exist");
+                            }
+                            else {      
+                               console.log(result1);
+                            }
+                        });
+                    }
+                    //console.log("ARR "+ arr);
+                    response.render("fview",{cols: arrclname,fviews: arr})
+                   // console.log(arr);
+                   // console.log(arrclname);
+                //    connection.query(" select * from " + tbname.toLowerCase() , function(err,result1) {
+                //         if (err) throw err;
+                //         if(result1.length == 0) { 
+                //             console.log("table does not exist")
+                //         }
+                //         else {
+                //             const arrsid = [];
+                //             console.log(result1);
+                //             for(var i=0;i<result1.length;i++)
+                //             {
+                //                 arrsid.push(result1[i].sid);
+                //             }
+                //             //console.log(result1.length*arrclname.length);
+                //             response.render("fview",{cols: arrclname,fviews: arrsid})
+                //         }
+                //     });
+                }
+            });
         }
     });
 });
@@ -242,8 +241,7 @@ app.post('/attendance', function (request, response) {
                 if (err) throw err;
                 if(result.length == 0) { console.log("table does not exist")}
                 else {
-                    console.log(result);
-                                                                                
+                    console.log(result);                                                                                
                 }
             })   
         }
