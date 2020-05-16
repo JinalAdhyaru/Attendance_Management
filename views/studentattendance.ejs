@@ -1,0 +1,33 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student View Attendance</title>
+</head>
+<body>
+    <h1>Student View Attendance</h1><br><br>
+    <h2><%#  fview[0].cid %> <%# fview[0].cname %></h2>
+    <% var arr = []; var i=0; %>
+    <table align="center">
+        <tr>            
+            <% cols.forEach(function (col) { %>
+                
+                    <th><input name="s_id" value="<%= col %>" readonly></th>
+                    <% arr[i++] =  col;  %>
+                    
+                    
+            <% }) %>
+            <% console.log("Inside ejs " + arr); %>
+            <% console.log("Array length " + arr.length); %>
+        </tr>             
+        <% fviews.forEach(function (fview) { %>
+            <tr>          
+            <!-- <td><input name="s_id" value="<%# fview.sid %>" readonly></td> -->
+            <% for (i=0;i<arr.length;i++) { %>
+                <% var x = arr[i]; console.log("x = " + x); console.log("fview.x = " + fview.x); %>
+            <td><input name="s_id" value="<%= fview.x %>" readonly></td>
+            <% } %>
+        </tr>            
+        <% }) %>
+    
+    </table>
+</body>

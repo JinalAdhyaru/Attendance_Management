@@ -2,18 +2,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Faculty View Attendance</title>
 </head>
 <body>
     <h1>Student Attendance</h1><br><br>
     <h2><%#  fview[0].cid %> <%# fview[0].cname %></h2>
     <table align="center">
        
-            <!-- <th><b>student id</b></th>
-            <th><b>student name</b></th>
-            <th><b>date</b></th>   
-            <th><b>attendance</b></th> -->
-            <tr>
+         <tr>
             <% cols.forEach(function (col) { %>
                 
                     <th><input name="s_id" value="<%= col %>" readonly></th>
