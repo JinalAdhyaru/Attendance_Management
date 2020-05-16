@@ -161,9 +161,9 @@ app.post('/lastpage', function (req, res) {
     });
 
 
-var arrclname = [];
-var arr = [];
 app.post('/fview',function(request,response){
+    var arrclname = [];
+    var arr = [];
     var crs = request.body.viewatt;
     //console.log("ur subject is taken" + crs);
     var viewquery = "select cid from course where cname = '"+crs+"'";
@@ -230,29 +230,56 @@ app.post('/fview',function(request,response){
 
 
 app.post('/attendance', function (request, response) {
+    var arrclname = []; 
+    var arr = [];
+    var sid;
     console.log(request.body.selectpick);
     var crname = request.body.selectpick;
     var stdn = request.body.studentname;
     console.log(crname);
+    console.log(stdn);
+    connection.query("select sid from student where sname = '" + stdn + "'", function(err,sids) {
+        if(err) throw err;
+        else if(sids.length == 0) {
+            console.log("Student Id not found");
+        }
+        else {
+            console.log(sids);
+            sid = sids[0].sid;
+            console.log(sid);
+        }
+    });
     connection.query("select cid from course where cname = '" + crname + "'", function(err, result) {
         if (err) throw err;
         if(result.length == 0) { console.log("Course does not exist")}
         else {
             console.log(result);
-            var x = result;
-            var tbname = result[0].cid + "_attendance";
+            var x = result[0].cid;
+            var tbname = x.toLowerCase() + "_attendance";
             console.log(stdn);
             console.log(tbname);
-            connection.query("show columns from "+ tbname, function(err,result) {
-                if (err) throw err;
-                if(result.length == 0) { console.log("table does not exist")}
-                else {
-                    console.log(result);                                                                                
-                }
-            })   
+            connection.query("show columns from "+ tbname, function(err,columns) {
+             if(err) throw err;
+             else if(columns.length == 0) { console.log("No columns found");  }
+             else {
+                 console.log(columns);
+                 for(var i=0;i<columns.length;i++) {
+                     arrclname.push(columns[i].Field);
+                 }
+                 console.log(arrclname);
+                 connection.query("select * from " + tbname + " where sid = '" + sid + "'", function(err,results) {
+                    if(err) throw err;
+                    else if(results.length == 0) { console.log("No entry found");} 
+                    else {
+                        console.log(results);
+                    }
+                    response.render("studentattendance" ,{cols: arrclname,fviews: results});
+                 });
+             }       
+            });
         }
-    })   
-});
+        });   
+    });
 
 app.listen(3000, function () {
     console.log("Server started on port 3000");
