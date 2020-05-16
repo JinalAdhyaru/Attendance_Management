@@ -193,6 +193,12 @@ app.post('/fview',function(request,response){
                             }
                             else {      
                                console.log(result1);
+                               var arr = [];
+                               for(var i=0;i<result1.length;i++) {
+                                    arr.push(result1[i].arrclname);
+                                    console.log(arr);
+                               }
+                               console.log("Arr " + arr);
                             }
                         });
                     }
