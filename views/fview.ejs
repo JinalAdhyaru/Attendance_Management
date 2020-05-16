@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,24 +6,31 @@
 </head>
 <body>
     <h1>Student Attendance</h1><br><br>
-    <h2> <%= fview[0].cid %> <%= fview[0].cname %></h2>
+    <h2><%#  fview[0].cid %> <%# fview[0].cname %></h2>
     <table align="center">
-        <tr>
-            <th><b>student id</b></th>
+       
+            <!-- <th><b>student id</b></th>
             <th><b>student name</b></th>
-            <th><b>date</b></th>
-            <th><b>attendance</b></th>
+            <th><b>date</b></th>   
+            <th><b>attendance</b></th> -->
+            <tr>
+            <% cols.forEach(function (col) { %>
+                
+                    <th><input name="s_id" value="<%= col %>" readonly></th>
+                    
+            <% }) %>
         </tr>
-        <% fview.forEach(function (user) { %>
+             
+        <% fviews.forEach(function (fview) { %>
+            <tr>  
+        
+            <td><input name="s_id" value="<%= fview %>" readonly></td>
+        </tr>    
+           <!-- <td><input name="at_date" value="<%# user.at_date %>" readonly></td>-->
 
-        <tr>
-            <td><input name="s_id" value="<%= user.sid %>" readonly></td>
-
-            <td><input name="at_date" value="<%= user.at_date %>" readonly></td>
-
-            <td><input name="attend" value="<%= user.attend %>" readonly></td>
-        </tr>
+            <!-- <td><input name="attend" value="<%# user.attend %>" readonly></td> -->
+        
         <% }) %>
+    
     </table>
 </body>
-</html>
