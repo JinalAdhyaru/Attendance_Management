@@ -1,25 +1,77 @@
 <html>
 
 <head>
-    <title>student | attendance</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Student</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
+<Style>
+            body {           
+                background-color: #E4E9FD;
+                background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%);
+                margin-top: 20px;
+                position: fixed;
+                font-family: 'Roboto', sans-serif;
+            }      
+            select { margin: 6px;margin-left: 70px; margin-bottom: 20px; font-size: 18px;  }
+            option {margin-bottom: 10px;}
+            header { margin-top: 20px; margin-left: 500px;}
+            input,p {
+                border: 0ch;
+                background-color: rgb(0,0,0,0);               
+                font-size: 35px;  
+                font-weight: 500;
+            }
+            form {
+                margin-top: 30px;
+            }
 
+            fieldset {  
+                    width:450px;
+                    padding:20px;
+                    margin-top:80px;
+                    margin-left:540px;
+                    border-radius:5px;
+                    box-shadow:2px 2px 20px 1px black;
+                    background-color:rgb(0,0,0,0.5);
+                    color: white;
+                }
+            
+            legend {       
+                   padding: 3px 6px;
+                   color: white;
+                   font-size: 21px;
+                   text-align: center;
+            }
+            .top { margin-left: 600px; }   
+            .form-control {
+                 width: 400px;
+            } 
+            button { margin-left: 85px;}
+</Style>
 <body>
-   <form action="attendance" method="POST">
-        <h1>welcome back <input name="studentname" value="<%= studentname %>" <%= studentname %> readonly></h1>  
-        <select name="selectpick">
-            <option name="Information Security" value="Information Security">Information Security</option>
-            <option name="Information Security Lab" value="Information Security Lab">Information Security Lab</option>
-            <option name="Discrete Mathematics" value="Discrete Mathematics">Descrete Mathematics</option>
-            <option name="Numerical Techniques" value="Numerical Techniques">Numerical Techniques</option>
-            <option name="Digital Logic Design" value="Digital Logic Design">Digital Logic Design</option>
-            <option name="Digital Logic Design Lab" value="Digital Logic Design Lab">Digital Logic Design Lab</option>
-            <option name="Computer Networks" value="Computer Networks">Computer Networks</option>
-            <option name="Computer Networks Lab" value="Computer Networks Lab">Computer Networks Lab</option>
-            <option name="Science Technology And Society" value="Science Technology And Society">Science Technology And Society</option>
-            <option name="Environmental Science" value="Environmental Science">Environmental Science</option>
-        </select>
-        <button type="submit">Submit</button>
+    <header>
+        <h1>Attendance Management System</h1><br>    
+    </header>
+   <form action="student" method="POST">
+    <div class="top"><p>Welcome <input name="studentname" value="<%= studentname %>" <%= studentname %> readonly></p> </div></div>
+       <fieldset>
+            <legend>Choose a subject to see your attendance. </legend>
+            <select name="choosesubject">
+                <option name="Information Security" value="Information Security">Information Security</option>
+                <option name="Information Security Lab" value="Information Security Lab">Information Security Lab</option>
+                <option name="Discrete Mathematics" value="Discrete Mathematics">Descrete Mathematics</option>
+                <option name="Numerical Techniques" value="Numerical Techniques">Numerical Techniques</option>
+                <option name="Digital Logic Design" value="Digital Logic Design">Digital Logic Design</option>
+                <option name="Digital Logic Design Lab" value="Digital Logic Design Lab">Digital Logic Design Lab</option>
+                <option name="Computer Networks" value="Computer Networks">Computer Networks</option>
+                <option name="Computer Networks Lab" value="Computer Networks Lab">Computer Networks Lab</option>
+                <option name="Science Technology And Society" value="Science Technology And Society">Science Technology And Society</option>
+                <option name="Environmental Science" value="Environmental Science">Environmental Science</option>
+            </select><br>
+            <button type="submit" class="btn btn-primary">View Attendance</button>&nbsp;
+            <a class="btn btn-primary" href="/logout" role="button">Log Out</a>  
+        </fieldset>
     </form>
 
 </body>

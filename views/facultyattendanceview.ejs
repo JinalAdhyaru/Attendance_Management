@@ -1,20 +1,23 @@
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <title>Student Attendance View</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <style>
+    <title>Faculty Attendance View</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+   
+</head>
+<style>
         body {           
-           background-color: #E4E9FD;
-           background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%);
-           margin-top: 20px;
-           position: fixed;
-           margin-left: 20px;
-           font-family: 'Roboto', sans-serif;
-       }
-       .row { margin-left: 400px; font-size: 18px; font-weight: 500; }   
-       header { margin-top: 20px; margin-left: 500px; margin-bottom: 50px; }  
-       table, td, th {
+            background-color: #E4E9FD;
+            background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%);
+            margin-top: 20px;
+            margin-left: 20px;
+            font-family: 'Roboto', sans-serif;
+        }  
+        .row {  margin-left: 450px; font-size: 18px; font-weight: 500; }   
+        header { margin-top: 20px; margin-left: 500px; margin-bottom: 30px; }  
+        table, td, th {
+            margin-top: 20px;
             border: 1px solid black;
             text-align: center;
             margin-left: 400px;
@@ -22,8 +25,8 @@
             padding: 8px;
         }
         table {
-            border-collapse: collapse;
-            width: 60%;
+        border-collapse: collapse;
+        width: 60%;
         }
         th {
             background-color: rgb(0,0,0,0.7);
@@ -32,10 +35,9 @@
         td { height: 30px; }
         tr:nth-child(even) {background-color: #f2f2f296;}
         tr:nth-child(odd) {background-color: rgba(245, 245, 245, 0.842)}
-        button { margin-left: 555px; }
+        button { margin-left: 600px; margin-top: 20px;}
     </style>
 
-</head>
 <body>
     <header>
         <h1>Attendance Management System</h1><br>    
@@ -45,37 +47,38 @@
         Course Name : <%= data[1] %>
     </div>
     <div class="row">
-    Faculty ID : <%= data[2] %> &nbsp; &nbsp; &nbsp;
-    Faculty Name : <%= data[3] %>
+        Faculty ID : <%= data[2] %> &nbsp; &nbsp; &nbsp;
+        Faculty Name : <%= data[3] %>
     </div>
-    <% var arr = []; var i=0; %><br>
-    <table id="tblData" >
-        <tr>      
-            <th>SName</th>      
+    <% var arr = []; var i=0; %>
+    <table id="tblData">
+        <tr>        
+            <th>SName</th>    
             <% cols.forEach(function (col) { %>                
                     <th><%= col %></th>
-                    <% arr[i++] =  col;  %>                     
+                    <% arr[i++] =  col;  %>                    
             <% }) %>
-        </tr>             
-        <% fviews.forEach(function (fview) { %>
-            <tr>     
-                <td><%= data[4]%></td>     
-            <% for (i=0;i<arr.length;i++) { %>
-                <% var x = arr[i]; %>
-            <td><%= fview[x] %></td>
-            <% } %>
-        </tr>            
+        </tr> 
+        <% var j=0; %>             
+        <% info.forEach(function (student) { %>
+            <tr>                 
+                <td><%= studentnm[j++] %></td>     
+                <% for (i=0;i<arr.length;i++) { %>
+                    <% var x = arr[i]; %>
+                    <td><%= student[x] %></td>
+                <% } %>
+            </tr>            
         <% }) %>
-    </table><br>
+    </table>
     <button class="btn btn-primary btn-lg" onclick="exportTableToExcel('tblData', 'members-data')">Export Table Data To Excel File</button>
-    <a class="btn btn-primary btn-lg" href="/logout" role="button">Log Out</a>
+    <a class="btn btn-primary btn-lg" style="margin-top: 20px;" href="/logout" role="button">Log Out</a>
 
     <script>
         function exportTableToExcel(tableID, filename = ''){
         var downloadLink;
         var dataType = 'application/vnd.ms-excel';
         var tableSelect = document.getElementById(tableID);
-        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');    
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');        
         // Specify file name
         filename = filename?filename+'.xls':'excel_data.xls';        
         // Create download link element
@@ -96,4 +99,5 @@
         }
     }
     </script>
+
 </body>
