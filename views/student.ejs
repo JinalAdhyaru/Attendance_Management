@@ -53,23 +53,16 @@
     <header>
         <h1>Attendance Management System</h1><br>    
     </header>
-   <form action="student" method="POST">
-    <div class="top"><p>Welcome <input name="studentname" value="<%= studentname %>" <%= studentname %> readonly></p> </div></div>
+   <form method="POST">
+    <div class="top"><p>Welcome <input name="studentname" value="<%= sname[0].sname %>" <%= sname[0].sname %> readonly></p> </div></div>
        <fieldset>
             <legend>Choose a subject to see your attendance. </legend>
             <select name="choosesubject">
-                <option name="Information Security" value="Information Security">Information Security</option>
-                <option name="Information Security Lab" value="Information Security Lab">Information Security Lab</option>
-                <option name="Discrete Mathematics" value="Discrete Mathematics">Descrete Mathematics</option>
-                <option name="Numerical Techniques" value="Numerical Techniques">Numerical Techniques</option>
-                <option name="Digital Logic Design" value="Digital Logic Design">Digital Logic Design</option>
-                <option name="Digital Logic Design Lab" value="Digital Logic Design Lab">Digital Logic Design Lab</option>
-                <option name="Computer Networks" value="Computer Networks">Computer Networks</option>
-                <option name="Computer Networks Lab" value="Computer Networks Lab">Computer Networks Lab</option>
-                <option name="Science Technology And Society" value="Science Technology And Society">Science Technology And Society</option>
-                <option name="Environmental Science" value="Environmental Science">Environmental Science</option>
+                <% courses.forEach(function (course) { %>
+                    <option value="<%= course.cname %>"><%= course.cname %></option>
+                <%   });  %>
             </select><br>
-            <button type="submit" class="btn btn-primary">View Attendance</button>&nbsp;
+            <button type="submit" formaction="student" class="btn btn-primary">View Attendance</button>&nbsp;
             <a class="btn btn-primary" href="/logout" role="button">Log Out</a>  
         </fieldset>
     </form>
