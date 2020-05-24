@@ -57,11 +57,19 @@ app.post("/login", function (request, response) {
             if (err) throw err;
             if(result.length==0) { response.render("errors",{message: "Student not found."}); }
             else{
-                connection.query("select sname from student where sid= '"+ username + "'", function (err,result1) {   
+                connection.query("select sname from student where sid= '"+ username + "'", function (err,result2) {   
                     if (err) throw err;
-                    if(result1.length == 0) { response.render("errors",{message: "Student not found."}); }
+                    if(result2.length == 0) { response.render("errors",{message: "Student not found."}); }
                     else {
-                        response.render('student',{studentname: result[0].sname});
+                        connection.query("select course.cname from std_course natural join course natural join student where sid='"+ username + "'", function (err, result1) {
+                            if (err) throw err;
+                            if(result1.length==0) { response.render("errors",{message: "No course found."}); }           
+                            else {
+                                obj.sname = result2;
+                                obj.courses = result1;
+                                response.render('student',obj);                
+                            }
+                        });    
                     }
                 });      
             }
@@ -76,7 +84,7 @@ app.post("/login", function (request, response) {
                     if(err) throw err;
                     if(result2.length == 0) { response.render("errors",{message: "Faculty not found."}); }
                     else {
-                        connection.query("SELECT course.cname FROM course natural join faculty where fid = '"+ username + "'", function (err, result1) {
+                        connection.query("select course.cname from course natural join faculty where fid = '"+ username + "'", function (err, result1) {
                             if (err) throw err;
                             if(result1.length==0) { response.render("errors",{message: "No course found."}); }           
                             else {
@@ -98,7 +106,7 @@ app.post("/login", function (request, response) {
 var obj2={};
 app.post('/addattendance',function(request,response){
     var subject = request.body.choosesubject;
-    connection.query("select student.sid,student.sname,course.cid,course.cname,faculty.fid,faculty.fname from course natural join faculty,student where cname='"+subject+"'",function(err,result){
+    connection.query("select std_course.sid,student.sname,std_course.cid,course.cname,faculty.fid,faculty.fname from std_course natural join faculty natural join student natural join course where course.cname='"+subject+"'",function(err,result){
         if(err) throw err;
         if(result.length==0){ response.render("Finalpage",{message: "No such record exists."}); }
         else{
@@ -118,16 +126,33 @@ app.post('/addingattendance', function (req, res) {
     var sids = req.body.sid;
     var cid = req.body.cid.toLowerCase();
     var cn = cid + "_attendance";
-    connection.query("alter table " + cn + " add column " + dayy +" varchar(1)",function(err,result) {
-       if(err) throw err;
-       for(var i=0;i<sids.length;i++)
-       {
-           connection.query("update "+ cn + " set " + dayy + " = '" + attended[i] +"' where sid='"+ sids[i]+"'",function(err,result) {
-            if(err) throw err;      
-           });
-       }
-       res.render("Finalpage",{message: "The attendance has been successfully recorded and stored in the database."});
-    });
+    var arrclname = [];
+    var flag = 0;
+    connection.query("show columns from "+ cn, function(err,columns) {
+        if(err) throw err;
+        else if(columns.length == 0) { response.render("Finalpage",{message: "The requested data does not exists."});  }
+        else {
+            for(var i=0;i<columns.length;i++) {
+                arrclname.push(columns[i].Field);
+                if(arrclname[i] == dayy) {
+                    flag = 1; 
+                    res.render("Finalpage",{message: "The attendance for current date is already recorded.Thus this cannot be recorded."});
+                }
+            }
+        } 
+        if(flag == 0) {
+            connection.query("alter table " + cn + " add column " + dayy +" varchar(1)",function(err,result) {
+            if(err) throw err;
+            for(var i=0;i<sids.length;i++)
+            {
+                connection.query("update "+ cn + " set " + dayy + " = '" + attended[i] +"' where sid='"+ sids[i]+"'",function(err,result) {
+                    if(err) throw err;      
+                });
+            }
+            res.render("Finalpage",{message: "The attendance has been successfully recorded and stored in the database."});
+            });
+        }      
+    });    
 });
     
 app.post('/viewattendance',function(request,response){
@@ -139,7 +164,7 @@ app.post('/viewattendance',function(request,response){
         if (err) throw err;
         if (result.length == 0) { response.render("Finalpage",{message: "No such record exists."}); }
         else {
-            connection.query("select cid,cname,fid,fname from course natural join faculty where cid='"+ result[0].cid +"'", function(err,data) {
+            connection.query("select cid,cname,fid,fname from course natural join faculty where cid='"+ result[0].cid + "'", function(err,data) {
                 if(err) throw err;
                 else if(data.length == 0) {console.log("Incorrect entry");}
                 else {
@@ -149,7 +174,7 @@ app.post('/viewattendance',function(request,response){
                     arr.push(data[0].fname);
                 }
             });
-            connection.query("select sname from student",function(err,snames) {
+            connection.query("select student.sname from student natural join std_course where std_course.cid = '"+ result[0].cid + "'",function(err,snames) {
                 if(err) throw err;
                 else if(snames.length == 0) { response.render("Finalpage",{message: "The requested data does not exists."});}
                 else {
@@ -226,7 +251,7 @@ app.post('/student', function (request, response) {
                         if(err) throw err;
                         else if(results.length == 0) { response.render("Finalpage",{message: "The requested data does not exists."}); } 
                         else {                       
-                            response.render("studentattendance" ,{data: arr,cols: arrclname,fviews: results});
+                            response.render("studentattendance" ,{data: arr,cols: arrclname,info: results});
                         }
                     });
                 }       
