@@ -39,7 +39,7 @@ CREATE TABLE `ec201_attendance` (
 
 LOCK TABLES `ec201_attendance` WRITE;
 /*!40000 ALTER TABLE `ec201_attendance` DISABLE KEYS */;
-INSERT INTO `ec201_attendance` VALUES ('20185001','0','1','1','1','0'),('20185002','1','1','0','0','1'),('20185003','1','0','1','0','1'),('20185004','1','0','0','1','0'),('20185005','0','1','0','0','0'),('20185006','1','1','1','1','1'),('20185007','1','0','1','1','1'),('20185008','1','0','1','1','0'),('20185009','0','1','1','1','1'),('20185010','1','1','1','1','1');
+INSERT INTO `ec201_attendance` VALUES ('20185001','0','1','1','1','0'),('20185002','1','1','0','0','1'),('20185003','1','0','1','0','1'),('20185004','1','0','0','1','0'),('20185005','0','1','0','0','0');
 /*!40000 ALTER TABLE `ec201_attendance` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-23 17:06:28
+-- Dump completed on 2020-05-24 12:15:00

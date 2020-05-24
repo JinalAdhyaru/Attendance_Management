@@ -29,6 +29,7 @@ CREATE TABLE `it301_attendance` (
   `13_May_2020` varchar(1) NOT NULL,
   `14_May_2020` varchar(1) NOT NULL,
   `15_May_2020` varchar(1) NOT NULL,
+  `24_May_2020` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`sid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,7 +40,7 @@ CREATE TABLE `it301_attendance` (
 
 LOCK TABLES `it301_attendance` WRITE;
 /*!40000 ALTER TABLE `it301_attendance` DISABLE KEYS */;
-INSERT INTO `it301_attendance` VALUES ('20185001','0','1','1','1','0'),('20185002','1','1','0','0','1'),('20185003','1','0','1','0','1'),('20185004','1','0','0','1','0'),('20185005','0','1','0','0','0'),('20185006','1','1','1','1','1'),('20185007','1','0','1','1','1'),('20185008','1','0','1','1','0'),('20185009','0','1','1','1','1'),('20185010','1','1','0','1','0');
+INSERT INTO `it301_attendance` VALUES ('20185006','1','1','1','1','1','1'),('20185007','1','0','1','1','1','0'),('20185008','1','0','1','1','0','1'),('20185009','0','1','1','1','1','1'),('20185010','1','1','0','1','0','1');
 /*!40000 ALTER TABLE `it301_attendance` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-23 17:06:28
+-- Dump completed on 2020-05-24 12:15:02
